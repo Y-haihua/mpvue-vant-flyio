@@ -1,24 +1,59 @@
-function formatNumber (n) {
-  const str = n.toString()
-  return str[1] ? str : `0${str}`
+import Notify from 'vant-weapp/dist/notify/notify'
+
+/**
+ * 显示顶部红色通知
+ * 使用方法：调用时确保界面上有：
+ * <van-notify id="van-notify"/>
+ * @param msg
+ * @param showTime
+ */
+export function showNotify (msg, showTime) {
+  if (!showTime) {
+    showTime = 3000
+  }
+  Notify({
+    text: msg,
+    duration: showTime
+  })
 }
 
-export function formatTime (date) {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
+/**
+ * 从缓存里获取数据
+ * @param key
+ * @return value
+ */
+export function getStorageSync (key) {
+  return wx.getStorageSync(key)
+}
 
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
+/**
+ * 显示加载中
+ * @param data
+ */
+export function showLoading (data) {
+  wx.showLoading(data)
+}
 
-  const t1 = [year, month, day].map(formatNumber).join('/')
-  const t2 = [hour, minute, second].map(formatNumber).join(':')
+/**
+ * 隐藏加载中
+ */
+export function hideLoading () {
+  wx.hideLoading()
+}
 
-  return `${t1} ${t2}`
+/**
+ * 将数据保存到缓存
+ * @param key
+ * @param value
+ */
+export function setStorageSync (key, value) {
+  wx.setStorageSync(key, value)
 }
 
 export default {
-  formatNumber,
-  formatTime
+  getStorageSync,
+  setStorageSync,
+  showLoading,
+  hideLoading,
+  showNotify
 }
